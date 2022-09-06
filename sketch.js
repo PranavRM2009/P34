@@ -12,12 +12,17 @@ var bg
 var b_ball,b_ballImg
 var rope
 var pipeImg, pipe
+var blowerImg, blower
+var p,pImg,p2,p2Img
 
 
 function preload(){
   bg = loadImage("background.jpeg")
   b_ballImg = loadImage("b_ball.png")
   pipeImg = loadImage("Mario_pipe.png")
+  blowerImg = loadImage("blower.png")
+  pImg = loadImage("pirranha.png")
+  p2Img = loadImage("pirranha 2.png")
 }
 
 function setup() {
@@ -44,9 +49,23 @@ function setup() {
   pipe.addImage(pipeImg)
   pipe.scale = 0.5
 
-  b_ball = Bodies.circle(200,200,40)
+  b_ball = Bodies.circle(200,200,40,{restitution:1.5,density : 0.001,frictionAir:0.01})
   World.add(world,b_ball)
 
+  blower = createSprite(800,635,10,10)
+  blower.addImage(blowerImg)
+  blower.scale =0.45
+  blower.rotation = -45
+
+  p = createSprite(650,630,10,10)
+  p.addImage(pImg)
+  p.scale = 0.5
+  p.velocityX = -4
+
+  p2 = createSprite(100,630,10,10)
+  p2.addImage(p2Img)
+  p2.scale = 0.3
+  p2.velocityX = 3
 }
 
 
@@ -58,7 +77,19 @@ function draw()
   rope2.show();
   rope3.show();
   imageMode(RADIUS)
-  image(b_ballImg,b_ball.position.x,b_ball.position.y,60,60)
+  image(b_ballImg,b_ball.position.x,b_ball.position.y,100,80)
+
+  if (keyDown("up")){
+    Matter.Body.applyForce(b_ball,{x:0,y:0},{x:0.001,y:-0.01})
+  }
+
+  if (p.x<0){
+    p.x = 650
+  }
+
+  if (p2.x>630){
+    p2.x = 100
+  }
 
   drawSprites()
 }
